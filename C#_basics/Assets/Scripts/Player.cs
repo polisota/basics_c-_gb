@@ -1,30 +1,23 @@
 ﻿using UnityEngine;
 
-namespace Geekbrains
+public abstract class Player : MonoBehaviour
 {
-    public class Player : MonoBehaviour
+    public float Speed = 3.0f;
+    protected Rigidbody _rigidbody;
+    float moveHorizontal;
+    float moveVertical;
+
+    private void Start()
     {
-        public float Speed = 3.0f;
-        private Rigidbody _rigidbody;
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
+    protected void Move()
+    {
+        moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        protected void Move()
-        {
-            float moveHorizontal = Input.GetAxis("Horizontal");
-            float moveVertical = Input.GetAxis("Vertical");
-            
-            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-            
-            _rigidbody.AddForce(movement * Speed);
-        }
-
-        protected virtual void Roman()
-        {
-            
-        }
+        _rigidbody.AddForce(movement * Speed / Time.deltaTime);
     }
 }
