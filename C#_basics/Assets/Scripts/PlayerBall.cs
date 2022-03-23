@@ -1,21 +1,9 @@
-﻿namespace Geekbrains
-{
-    public sealed partial class PlayerBall : Player
-    {
-        partial void Test();
-        private void FixedUpdate()
-        {
-            Move();
-            Jump();
-            Test();
-        }
-        
-        private int t { get; set; }
+﻿using UnityEngine;
 
-        protected override void Roman()
-        {
-            base.Roman();
-            //kj
-        }
+public sealed class PlayerBall : Player
+{
+    private void FixedUpdate()
+    {
+        Move();
     }
 }
