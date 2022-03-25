@@ -7,6 +7,8 @@ public class BadBonus : InteractiveObject, IFlay, IRotation, ICloneable
 {
     private float _lengthFlay;
     private float _speedRotation;
+    public event DeathBonusDelegate StartDying;
+    public GameObject cam;
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class BadBonus : InteractiveObject, IFlay, IRotation, ICloneable
 
     protected override void Interaction(GameObject interacted)
     {
+        StartDying?.Invoke(new DeathBonusEventArgs(cam));
         FindObjectOfType<GameController>().EndGame();
     }
 
