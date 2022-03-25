@@ -10,7 +10,14 @@ public sealed class GameController : MonoBehaviour, IDisposable
 
     private void Awake()
     {
-        _interactiveObjects = FindObjectsOfType<InteractiveObject>();
+        try
+        {
+            _interactiveObjects = FindObjectsOfType<InteractiveObject>();
+        }
+        catch (NullReferenceException ex)
+        {
+            Debug.Log(ex + "No interactive objects were found.");
+        }        
     }
 
     private void Update()
@@ -47,7 +54,20 @@ public sealed class GameController : MonoBehaviour, IDisposable
 
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        try
+        {
+            if (SceneManager.GetActiveScene().name != "MainScene")
+            {
+                throw new NullReferenceException("Wrong scene name.");
+            }
+            SceneManager.LoadScene("MainScene");
+        }
+        catch (NullReferenceException ex)
+        {
+            Debug.Log(ex + "Check scene name.");
+        }
+
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Dispose()
