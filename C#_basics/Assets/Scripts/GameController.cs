@@ -1,23 +1,29 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public sealed class GameController : MonoBehaviour, IDisposable
 {
     private InteractiveObject[] _interactiveObjects;
     bool gameHasEnded = false;
     public float restartDelay = 1f;
+    public GameObject menu;
 
     private void Awake()
     {
-        try
+        _interactiveObjects = FindObjectsOfType<InteractiveObject>();
+
+        foreach (var interactiveObject in _interactiveObjects)
         {
-            _interactiveObjects = FindObjectsOfType<InteractiveObject>();
+            if (interactiveObject is BadBonus badBonus)
+            {
+                Debug.Log("1");
+                badBonus.StartDying += BadBonusOnStartDying;
+            }
         }
-        catch (NullReferenceException ex)
-        {
-            Debug.Log(ex + "No interactive objects were found.");
-        }        
     }
 
     private void Update()
@@ -47,27 +53,52 @@ public sealed class GameController : MonoBehaviour, IDisposable
     {
         if (gameHasEnded == false)
         {
+            Debug.Log("4");
             gameHasEnded = true;
             Invoke("Restart", restartDelay);
         }
     }
 
-    void Restart()
+    public void OpenMenu()
     {
-        try
-        {
-            if (SceneManager.GetActiveScene().name != "MainScene")
-            {
-                throw new NullReferenceException("Wrong scene name.");
-            }
-            SceneManager.LoadScene("MainScene");
-        }
-        catch (NullReferenceException ex)
-        {
-            Debug.Log(ex + "Check scene name.");
-        }
+        menu.SetActive(true);
+    }
 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    public void Restart()
+    {
+       SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void BadBonusOnStartDying(DeathBonusEventArgs deathbonuseventargs)
+    {        
+        Debug.Log("Cam shake");
+        GetComponent<CameraController>().enabled = false;
+        GetComponent<Animator>().enabled = true;
+
+        StartCoroutine(Shake());
+
+        GetComponent<CameraController>().enabled = true;
+        GetComponent<Animator>().enabled = false;
+
+        EndGame();
+    }      
+
+
+    private IEnumerator Shake()
+    {
+        yield return new WaitForSeconds(1);
+
     }
 
     public void Dispose()
