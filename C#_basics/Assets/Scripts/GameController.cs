@@ -20,7 +20,7 @@ public sealed class GameController : MonoBehaviour, IDisposable
         {
             if (interactiveObject is BadBonus badBonus)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 badBonus.StartDying += BadBonusOnStartDying;
             }
         }
