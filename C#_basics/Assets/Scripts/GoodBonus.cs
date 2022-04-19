@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class GoodBonus : InteractiveObject, IFlay, IEquatable<GoodBonus>
-{
+{    
     public int Point;    
     private float _lengthFlay;    
 
