@@ -4,13 +4,33 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public sealed class GameController : MonoBehaviour, IDisposable
 {
+    private LevelState state;
+    private string datapath;
+
     private InteractiveObject[] _interactiveObjects;
     bool gameHasEnded = false;
     public float restartDelay = 1f;
     public GameObject menu;
+
+    void Start()
+    {
+        datapath = Application.dataPath + "/Scripts/SavedData"  + "data.xml";
+
+        if (File.Exists(datapath))
+        {
+            state = Serializator.DeXml(datapath);
+        }
+        else
+        {
+            //setDefault();
+        }        
+
+        //Generate();
+    }
 
     private void Awake()
     {
@@ -19,8 +39,7 @@ public sealed class GameController : MonoBehaviour, IDisposable
         foreach (var interactiveObject in _interactiveObjects)
         {
             if (interactiveObject is BadBonus badBonus)
-            {
-                //Debug.Log("1");
+            {                
                 badBonus.StartDying += BadBonusOnStartDying;
             }
         }
@@ -53,7 +72,7 @@ public sealed class GameController : MonoBehaviour, IDisposable
     {
         if (gameHasEnded == false)
         {
-            Debug.Log("4");
+            
             gameHasEnded = true;
             Invoke("Restart", restartDelay);
         }
@@ -108,4 +127,31 @@ public sealed class GameController : MonoBehaviour, IDisposable
             Destroy(o.gameObject);
         }
     }
+
+    void setDefault()
+    {
+        state = new LevelState();        
+        state.AddItem(new BonusData("GBonus", new Vector3(-11f, 1f, -18f)));
+        state.AddItem(new BonusData("GBonus", new Vector3(-5f, 1f, 14f)));
+        state.AddItem(new BonusData("GBonus", new Vector3(13f, 1f, -8f)));
+        state.AddItem(new BonusData("GBonus", new Vector3(15f, 1f, -22f)));
+
+    }
+
+    void Generate()
+    {
+        foreach (BonusData felt in state.bonus)
+        {  
+            felt.inst = Instantiate(Resources.Load(felt.Name), felt.position, Quaternion.identity) as GameObject;
+           
+            felt.Estate();
+        }
+    }
+
+    void Dump()
+    {
+        state.Update();
+        Serializator.SaveXml(state, datapath);
+    }
+
 }
