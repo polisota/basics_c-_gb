@@ -1334,6 +1334,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invulnerability
       objectReference: {fileID: 0}
+    - target: {fileID: 1587343654107706455, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
+      propertyPath: _time
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
 --- !u!1 &413031610
@@ -4540,6 +4544,10 @@ PrefabInstance:
     - target: {fileID: 1587343654107706454, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
       propertyPath: m_Name
       value: Invulnerability
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587343654107706455, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
+      propertyPath: _time
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
@@ -12070,6 +12078,10 @@ PrefabInstance:
     - target: {fileID: 1587343654107706454, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
       propertyPath: m_Name
       value: Invulnerability
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587343654107706455, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
+      propertyPath: _time
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e679e9fb55c77741b946a16c678abf7, type: 3}
